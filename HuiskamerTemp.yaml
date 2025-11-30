@@ -1,0 +1,63 @@
+substitutions:
+  name: huiskamertemp
+
+esphome:
+  name: $name
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret password
+
+ota:
+  - platform: esphome
+    password: !secret password
+
+wifi:
+  ssid: !secret wifi_ssid 
+  password: !secret wifi_password
+  domain: !secret wifi_domain
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret hotspot_ssid
+    password: !secret hotspot_password
+
+captive_portal:
+
+one_wire:
+  - platform: gpio
+    pin: GPIO32
+
+
+# Individual sensors
+sensor:
+  - platform: dallas_temp
+    update_interval: 5s
+    address: 0xb2f949871e64ff28
+    name: "Huiskamer Vloer"
+    accuracy_decimals: 2
+    filters:
+    - offset: 0.15
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
+  - platform: dallas_temp
+    update_interval: 5s
+    address: 0x775937871e64ff28
+    name: "Huiskamer Lucht"
+    accuracy_decimals: 2
+    filters:
+    - offset: 0
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+

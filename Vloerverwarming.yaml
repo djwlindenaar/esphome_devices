@@ -1,0 +1,99 @@
+substitutions:
+  name: vloerverwarming
+
+esphome:
+  name: $name
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret password
+
+ota:
+  - platform: esphome
+    password: !secret password
+
+wifi:
+  ssid: !secret wifi_ssid 
+  password: !secret wifi_password
+  domain: !secret wifi_domain
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret hotspot_ssid
+    password: !secret hotspot_password
+
+captive_portal:
+
+one_wire:
+  - platform: gpio
+    pin: GPIO14
+
+button:
+  - platform: restart
+    name: "Restart Vloerverwarming temperatures"
+
+# Individual sensors
+sensor:
+  - platform: dallas_temp
+    address: 0x5c0000006ccc6028
+    name: "VV Retour Gemengd"
+    accuracy_decimals: 2
+    update_interval: 5s
+    filters:
+    - offset: 0.09
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
+  - platform: dallas_temp
+    address: 0x140000006ce5a428
+    name: "VV Retour Hoofdgebouw"
+    accuracy_decimals: 2
+    update_interval: 5s
+    filters:
+    - offset: 0.02
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
+  - platform: dallas_temp
+    address: 0x4b00000067342228
+    name: "VV Retour Garage"
+    accuracy_decimals: 2
+    update_interval: 5s
+    filters:
+    - offset: 0
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
+  - platform: dallas_temp
+    address: 0x950000006e50e628
+    name: "VV Aanvoer"
+    update_interval: 5s
+    accuracy_decimals: 2
+    filters:
+    - offset: -0.09
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
+  - platform: dallas_temp
+    address: 0xab0000006cb5d228
+    name: "VV naar vloer"
+    accuracy_decimals: 2
+    update_interval: 5s
+    filters:
+    - offset: 0.17
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
