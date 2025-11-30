@@ -1,0 +1,107 @@
+substitutions:
+  name: growatt2
+
+esphome:
+  name: $name
+
+#external_components:
+#  - source: my_components
+
+esp8266:
+  board: espduino
+
+# Enable logging
+logger:
+  baud_rate: 0
+
+#web_server:
+#  port: 80
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+  platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  domain: !secret wifi_domain
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret hotspot_ssid
+    password: !secret hotspot_password
+
+captive_portal:
+
+status_led:
+  pin: GPIO2
+
+light:
+  - platform: binary
+    name: "Blue LED"
+    output: light_output_bl
+  - platform: binary
+    name: "Green LED"
+    output: light_output_gn
+
+output:
+  - id: light_output_bl
+    platform: gpio
+    pin: GPIO16
+  - id: light_output_gn
+    platform: gpio
+    pin: GPIO0
+
+# Example configuration entry
+uart:
+  - id: uart1_growatt
+    baud_rate: 115200
+    tx_pin: GPIO1
+    rx_pin: GPIO3
+
+modbus:
+  uart_id: uart1_growatt
+  flow_control_pin: GPIO4
+
+sensor:
+  - platform: growatt_solar
+    update_interval: 10s
+    inverter_status:
+      name: "Growatt 2 Status Code"
+    phase_a:
+      voltage:
+          name: "Growatt 2 Voltage"
+      current:
+          name: "Growatt 2 Current"
+      active_power:
+          name: "Growatt 2 Power"
+    pv1:
+      voltage:
+          name: "Growatt 2 PV1 Voltage"
+      current:
+          name: "Growatt 2 PV1 Current"
+      active_power:
+          name: "Growatt 2 PV1 Active Power"
+    pv2:
+      voltage:
+          name: "Growatt 2 PV2 Voltage"
+      current:
+          name: "Growatt 2 PV2 Current"
+      active_power:
+          name: "Growatt 2 PV2 Active Power"
+    active_power:
+      name: "Growatt 2 Grid Active Power"
+    pv_active_power:
+      name: "Growatt 2 PV Active Power"
+    frequency:
+      name: "Growatt 2 Frequency"
+    energy_production_day:
+      name: "Growatt 2 Today's Generation"
+    total_energy_production:
+      name: "Growatt 2 Total Energy Production"
+      accuracy_decimals: 1
+    inverter_module_temp:
+      name: "Growatt 2 Inverter Module Temp"
+
