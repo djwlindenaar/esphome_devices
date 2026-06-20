@@ -1,0 +1,15 @@
+esphome:
+  name: lgtherma_test
+  comment: Living room ESP32 controller
+
+esp32:
+  board: nodemcu-32s
+
+logger:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+api:
+
