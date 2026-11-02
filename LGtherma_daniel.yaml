@@ -1,1 +1,2 @@
 packages: 
+  - !include LG-thermaV-control/LGtherma_daniel.yaml
