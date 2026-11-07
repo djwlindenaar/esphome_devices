@@ -1,0 +1,73 @@
+substitutions:
+  name: vloerverwarming-atelier
+
+esphome:
+  name: $name
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption: 
+    key: !secret apikey
+
+ota:
+  - platform: esphome
+    password: !secret password
+
+wifi:
+  ssid: !secret wifi_ssid 
+  password: !secret wifi_password
+  domain: !secret wifi_domain
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret hotspot_ssid
+    password: !secret hotspot_password
+
+captive_portal:
+
+one_wire:
+  - platform: gpio
+    pin: GPIO14
+
+# Individual sensors
+sensor:
+  - platform: dallas_temp
+    update_interval: 5s
+    address: 0x19dbbd571f64ff28
+    name: "Atelier Vloer"
+    accuracy_decimals: 2
+    filters:
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
+  - platform: dallas_temp
+    update_interval: 5s
+    address: 0xbb55fb571f64ff28
+    name: "VV Aanvoer Atelier"
+    accuracy_decimals: 2
+    filters:
+    - offset: -0.04
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
+  - platform: dallas_temp
+    update_interval: 5s
+    address: 0x2c98bf571f64ff28
+    name: "Atelier lucht"
+    accuracy_decimals: 2
+    filters:
+    - offset: 0
+    - sliding_window_moving_average:
+        window_size: 12
+        send_every: 6
+
