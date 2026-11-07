@@ -18,6 +18,9 @@ logger:
 #  port: 80
 # Enable Home Assistant API
 api:
+  encryption:
+    key: !secret apikey
+
 ota:
   - platform: esphome
 
