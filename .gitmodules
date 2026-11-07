@@ -1,0 +1,3 @@
+[submodule "LG-thermaV-control"]
+	path = LG-thermaV-control
+	url = https://github.com/djwlindenaar/LG-thermaV-control
