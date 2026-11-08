@@ -1,0 +1,12 @@
+# Zehnder ComfoAir Q ventilation, config lives in the esphome-zehnder-comfoair
+# submodule (branch "daniel" of djwlindenaar/esphome-zehnder-comfoair).
+substitutions:
+  name: esp-zehnder
+
+external_components:
+  - source: esphome-zehnder-comfoair/components
+    components: [ zehnder_comfoair_q ]
+
+packages:
+  base: !include esphome-zehnder-comfoair/packages/base.yml
+  device_base: !include esphome-zehnder-comfoair/boards/myboard.yml
