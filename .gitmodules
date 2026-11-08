@@ -1,3 +1,7 @@
 [submodule "LG-thermaV-control"]
 	path = LG-thermaV-control
 	url = https://github.com/djwlindenaar/LG-thermaV-control
+[submodule "esphome-zehnder-comfoair"]
+	path = esphome-zehnder-comfoair
+	url = https://github.com/djwlindenaar/esphome-zehnder-comfoair
+	branch = daniel
